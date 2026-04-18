@@ -1,0 +1,38 @@
+import sequelize from "./Database.js";
+import { DataTypes, Model } from "sequelize";
+
+export default class Pedido extends Model {
+  static associate(models) {
+    this.hasOne(models.Entrega, { foreignKey: 'pedidoId', as: 'entrega' });
+    this.hasOne(models.Avaliacao, { foreignKey: 'pedidoId', as: 'avaliacao' });
+  }
+}
+
+Pedido.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    data: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    mesa: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    nome_cliente: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  },
+  {
+    sequelize,
+    tableName: 'pedidos',
+    timestamps: true,
+    paranoid: true
+  }
+);
